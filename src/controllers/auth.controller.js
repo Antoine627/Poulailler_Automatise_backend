@@ -90,23 +90,41 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Vérifier si l'utilisateur existe
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(401).send({
+        // Vérifier si l'email est renseigné
+        if (!email) {
+            return res.status(400).send({
                 success: false,
-                message: 'Connexion échouée',
-                error: 'Email ou mot de passe incorrect'
+                message: 'Adresse email requise',
+                error: 'Veuillez fournir une adresse email pour vous connecter.'
             });
         }
 
-        // Vérifier le mot de passe
+        // Vérifier si l'utilisateur existe avec cet email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).send({
+                success: false,
+                message: 'Utilisateur non trouvé',
+                error: 'Aucun compte n\'est associé à cet email.'
+            });
+        }
+
+        // Vérifier si le mot de passe est renseigné
+        if (!password) {
+            return res.status(400).send({
+                success: false,
+                message: 'Mot de passe requis',
+                error: 'Veuillez entrer votre mot de passe pour vous connecter.'
+            });
+        }
+
+        // Vérifier si le mot de passe est correct
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword) {
             return res.status(401).send({
                 success: false,
-                message: 'Connexion échouée',
-                error: 'Email ou mot de passe incorrect'
+                message: 'Mot de passe incorrect',
+                error: 'Le mot de passe saisi est incorrect. Veuillez réessayer.'
             });
         }
 
@@ -134,6 +152,7 @@ const login = async (req, res) => {
         });
     }
 };
+
 
 const loginWithCode = async (req, res) => {
     try {
