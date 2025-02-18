@@ -1,24 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const vaccineController = require('../controllers/vaccine.controller');
-const authMiddleware = require('../middlewares/auth.middleware'); // Assurez-vous d'avoir un middleware d'authentification
-
+/* const authMiddleware = require('../middlewares/auth.middleware'); // Assurez-vous d'avoir un middleware d'authentification
+ */
 // Route pour ajouter un nouveau vaccin
-router.post('/', authMiddleware, vaccineController.addVaccine);
+router.post('/', vaccineController.addVaccine);
 
 // Route pour obtenir tous les vaccins
-router.get('/', authMiddleware, vaccineController.getVaccines);
+router.get('/', vaccineController.getVaccines);
 
 // Route pour obtenir les vaccins à venir
-router.get('/upcoming', authMiddleware, vaccineController.getUpcomingVaccines);
+router.get('/upcoming', vaccineController.getUpcomingVaccines);
 
 // Route pour mettre à jour un vaccin
-router.put('/:id', authMiddleware, vaccineController.updateVaccine);
+router.put('/:id', vaccineController.updateVaccine);
 
 // Route pour supprimer un vaccin
-router.delete('/:id', authMiddleware, vaccineController.deleteVaccine);
+router.delete('/:id', vaccineController.deleteVaccine);
 
 // Route pour obtenir les vaccins par utilisateur
-router.get('/user', authMiddleware, vaccineController.getVaccinesByUser);
+router.get('/user', vaccineController.getVaccinesByUser);
 
 module.exports = router;

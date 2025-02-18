@@ -37,7 +37,7 @@ const getUpcomingVaccines = async (req, res) => {
         const vaccines = await Vaccine.find({
             nextDueDate: {
                 $gte: new Date(),
-                $lte: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+                $lte: new Date(Date.now() + 0 * 24 * 60 * 60 * 1000)
             }
         }).sort({ nextDueDate: 1 });
         res.send(vaccines);
